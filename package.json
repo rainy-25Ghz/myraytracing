@@ -1,0 +1,14 @@
+{
+  "name": "myraytracing",
+  "version": "1.0.0",
+  "description": "raytracing in one weekend nodejs implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jimp": "^0.16.1"
+  }
+}

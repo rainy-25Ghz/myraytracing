@@ -11,8 +11,8 @@ export class HittableList {
   hit(r: Ray, tmin: number, tmax: number, rec: HitRecord): boolean {
     let hasHitSth = false;
     let closestT = tmax;
-    for (let i = 0; i < this.list.length; i++) {
-      if (this.hit(r, tmin, closestT, rec)) {
+    for (let hittable of this.list) {
+      if (hittable.hit(r, tmin, closestT, rec)) {
         hasHitSth = true;
         closestT = rec.t;
       }

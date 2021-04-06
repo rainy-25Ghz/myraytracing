@@ -1,5 +1,13 @@
 //import { random } from "./random";
-
+export interface Vector {
+  x: number;
+  y: number;
+  z: number;
+  add(vec: Vector): Vector;
+  minus(vec: Vector): Vector;
+  multiply(t: number): Vector;
+  devide(t: number): Vector;
+}
 export class Vec3 {
   public x: number;
   public y: number;
@@ -40,17 +48,7 @@ export class Vec3 {
   dot(vec: Vec3): number {
     return this.x * vec.x + this.y * vec.y + this.z * vec.z;
   }
-  get r() {
-    return Math.abs(Math.round(this.x * 255));
-  }
 
-  get g() {
-    return Math.abs(Math.round(this.y * 255));
-  }
-
-  get b() {
-    return Math.abs(Math.round(this.z * 255));
-  }
   /**
    * 向量取负数
    */

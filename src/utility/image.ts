@@ -1,10 +1,11 @@
+import { Color } from "./color";
 import { Vec3 } from "./vec3";
 
 export class Image {
   resolutionX: number;
   resolutionY: number;
   resolution: number;
-  pixelArray: Vec3[][];
+  pixelArray: Color[][];
   constructor(resX: number, resY: number) {
     this.resolutionX = resX;
     this.resolutionY = resY;
@@ -17,11 +18,11 @@ export class Image {
     }
     return this.pixelArray[posY][posX];
   }
-  pushRawPixel(r, g, b): void {
-    var pixelRGB = new Vec3(r, g, b);
+  pushRawPixel(r: number, g: number, b: number): void {
+    var pixelRGB = new Color(r, g, b);
     this.pushPixel(pixelRGB);
   }
-  pushPixel(pixelRGB: Vec3) {
+  pushPixel(pixelRGB: Color) {
     var posX = this.resolution % this.resolutionX;
     var posY = Math.floor(this.resolution / this.resolutionX);
     if (posY < this.resolutionY) {

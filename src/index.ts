@@ -5,7 +5,9 @@ import { Vec3 } from "./utility/vec3";
 import { Image } from "./utility/image";
 import { Ray } from "./utility/ray";
 import { HitRecord } from "./utility/hittable";
-import Jimp from "jimp";
+import { convertImageToPNG } from "./utility/img2png";
+import { Color } from "./utility/color";
+
 let imageH = 225;
 let imageW = 400;
 let aspectRatio = 16 / 9;
@@ -28,36 +30,25 @@ function randomVec3InUnitSphere(): Vec3 {
   }
 }
 
-function rayColor(ray: Ray, world: HittableList, depth: number): Vec3 {
+function rayColor(ray: Ray, world: HittableList, depth: number): Color {
   let rec = new HitRecord();
-  if (depth <= 0) return new Vec3(0, 0, 0);
+  if (depth <= 0) return new Color(0, 0, 0);
   if (world.hit(ray, 0.001, +Infinity, rec)) {
     let s = rec.p.add(rec.normal).add(randomVec3InUnitSphere());
     let p_s = s.minus(rec.p);
     return rayColor(new Ray(rec.p, p_s), world, depth - 1).multiply(0.5);
   } else {
     let t = (ray.dir.unit_vector.y + 1) * 0.5;
-    let white = new Vec3(1, 1, 1);
-    let blue = new Vec3(0.5, 0.7, 1.0);
+    let white = new Color(1, 1, 1);
+    let blue = new Color(0.5, 0.7, 1.0);
     return white.multiply(1 - t).add(blue.multiply(t));
   }
 }
-// function rayColor(ray: Ray, world: HittableList): Vec3 {
-//   let rec = new HitRecord();
-//   if (world.hit(ray, 0.001, +Infinity, rec)) {
-//     let n = rec.normal; //normal自动转为单位向量
-//     return n.add(new Vec3(1, 1, 1)).devide(2);
-//   } else {
-//     let t = (ray.dir.unit_vector.y + 1) * 0.5;
-//     let white = new Vec3(1, 1, 1);
-//     let blue = new Vec3(0.5, 0.7, 1.0);
-//     return white.multiply(1 - t).add(blue.multiply(t));
-//   }
-// }
+
 //renderer
 for (let j = imageH - 1; j >= 0; j--) {
   for (let i = 0; i < imageW; i++) {
-    let color = new Vec3(0, 0, 0);
+    let color = new Color(0, 0, 0);
     for (let s = 0; s < samplePerPixel; s++) {
       let u = (i + Math.random()) / imageW;
       let v = (j + Math.random()) / imageH;
@@ -65,43 +56,14 @@ for (let j = imageH - 1; j >= 0; j--) {
       color = color.add(rayColor(ray, world, 50));
     }
     color = color.devide(samplePerPixel);
-    color = new Vec3(
+    color = new Color(
       Math.sqrt(color.x),
       Math.sqrt(color.y),
       Math.sqrt(color.z)
     );
-    mimage.pushRawPixel(color.x, color.y, color.z);
+    mimage.pushPixel(color);
   }
   console.log(`lines ${imageH - 1 - j}`);
 }
 
-async function convertImageToPNG(imageInput: Image, sFileName = "output") {
-  var sFilePath = sFileName + "." + "png";
-  function onSave(oError) {
-    if (oError) {
-      console.log("Error while saving file");
-    } else {
-      console.log("Successfully saved the file  ");
-    }
-  }
-  let oJimpImage = new Jimp(
-    imageInput.resolutionX,
-    imageInput.resolutionY,
-    function (oError, oImage) {
-      if (oError) {
-        throw oError;
-      }
-      imageInput.pixelArray.forEach((pixelRow, y) => {
-        pixelRow.forEach((pixel, x) => {
-          oImage.setPixelColor(
-            Jimp.rgbaToInt(pixel.r, pixel.g, pixel.b, 255),
-            x,
-            y
-          );
-        });
-      });
-      oImage.write(sFilePath, onSave);
-    }
-  );
-}
 convertImageToPNG(mimage);

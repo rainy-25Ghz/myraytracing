@@ -1,4 +1,4 @@
-import { Vector } from "./vec3";
+import { Vec3, Vector } from "./vec3";
 
 export class Color implements Vector {
   public x: number;
@@ -26,6 +26,20 @@ export class Color implements Vector {
   //除
   devide(t: number): Color {
     return this.multiply(1 / t);
+  }
+  cross(vec: Color): Color {
+    return new Color(
+      this.y * vec.z - vec.y * this.z,
+      -this.x * vec.z + this.z * vec.x,
+      this.x * vec.y - this.y * vec.x
+    );
+  }
+  static attenuate(color: Color, attenuation: Color) {
+    return new Color(
+      color.x * attenuation.x,
+      color.y * attenuation.y,
+      color.z * attenuation.z
+    );
   }
   get r() {
     return Math.abs(Math.round(this.x * 255));

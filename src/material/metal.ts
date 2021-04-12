@@ -1,12 +1,14 @@
 import { Color } from "../utility/color";
 import { HitRecord } from "../utility/hittable";
 import { Ray } from "../utility/ray";
-import { Vec3 } from "../utility/vec3";
+import { randomVec3InUnitSphere, Vec3 } from "../utility/vec3";
 import { Material } from "./material";
 
 export class Metal implements Material {
   albedo: Color;
-  constructor(a: Color) {
+  fuzz: number;
+  constructor(a: Color, f: number) {
+    this.fuzz = f < 1 ? f : 1;
     this.albedo = a;
   }
   scatter(
@@ -16,8 +18,12 @@ export class Metal implements Material {
     rayScattered: Ray
   ): boolean {
     let reflected = Vec3.reflect(rayIn.dir.unit_vector, rec.normal);
-    let scattered = new Ray(rec.p, reflected);
-    attenuation = this.albedo;
-    return scattered.dir.dot(rec.normal) > 0;
+    reflected = reflected.add(randomVec3InUnitSphere().multiply(this.fuzz));
+    rayScattered.dir = reflected;
+    rayScattered.orig = rec.p;
+    attenuation.x = this.albedo.x;
+    attenuation.y = this.albedo.y;
+    attenuation.z = this.albedo.z;
+    return reflected.dot(rec.normal) > 0;
   }
 }

@@ -79,6 +79,16 @@ export class Vec3 {
     }
   }
   static reflect(vecIn: Vec3, n: Vec3): Vec3 {
-    return vecIn.minus(n.multiply(2 * vecIn.dot(n)));
+    let vn2 = n.dot(vecIn) * 2;
+    return vecIn.minus(n.multiply(vn2));
+  }
+}
+export function randomVec3InUnitSphere(): Vec3 {
+  let _v = new Vec3(Math.random(), Math.random(), Math.random());
+  _v = _v.multiply(2).minus(new Vec3(1, 1, 1));
+  while (true) {
+    if (_v.length_squared < 1) return _v;
+    _v = new Vec3(Math.random(), Math.random(), Math.random());
+    _v = _v.multiply(2).minus(new Vec3(1, 1, 1));
   }
 }

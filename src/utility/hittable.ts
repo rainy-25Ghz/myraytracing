@@ -1,3 +1,4 @@
+import { Material } from "../material/material";
 import { Ray } from "./ray";
 import { Vec3 } from "./vec3";
 export class HitRecord {
@@ -27,6 +28,10 @@ export class HitRecord {
       ? outward_normal
       : Vec3.negative(outward_normal);
   }
+  /**
+   * 记录击中面的材质
+   */
+  material: Material;
   //   constructor() {
   //     //this.p=new Vec3();
   //     //this.isFrontFace=false;

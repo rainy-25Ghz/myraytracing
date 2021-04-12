@@ -1,3 +1,4 @@
+import { Material } from "../material/material";
 import { HitRecord, Hittable } from "./hittable";
 import { Ray } from "./ray";
 import { Vec3 } from "./vec3";
@@ -5,9 +6,11 @@ import { Vec3 } from "./vec3";
 export class Sphere implements Hittable {
   center: Vec3;
   radius: number;
-  constructor(cen: Vec3, r: number) {
+  material: Material;
+  constructor(cen: Vec3, r: number, mat: Material) {
     this.center = cen;
     this.radius = r;
+    this.material = mat;
   }
   hit(r: Ray, tmin: number, tmax: number, rec: HitRecord): boolean {
     let oc = r.orig.minus(this.center); //Orig-C
@@ -23,6 +26,7 @@ export class Sphere implements Hittable {
         rec.p = r.at(temp);
         let out_normal = rec.p.minus(this.center).devide(this.radius);
         rec.setFaceNormal(r, out_normal);
+        rec.material = this.material;
         return true;
       }
       temp = (-1 * b + Math.sqrt(iDiscriminant)) / a;
@@ -31,6 +35,7 @@ export class Sphere implements Hittable {
         rec.p = r.at(temp);
         let out_normal = rec.p.minus(this.center).devide(this.radius);
         rec.setFaceNormal(r, out_normal);
+        rec.material = this.material;
         return true;
       }
     }

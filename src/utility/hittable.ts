@@ -13,20 +13,20 @@ export class HitRecord {
    * 光线击中时对应的t
    */
   t: number;
-  //   /**
-  //    * 光线在物体外部设为true，反之为false
-  //    */
-  //   isFrontFace: boolean;
-  //   /**
-  //    *
-  //    * @ 判定光线在物体内还是物体外，修正法线方向朝外，
-  //    */
-  //   setFaceNormal(r: Ray, outward_normal: Vec3): void {
-  //     this.isFrontFace = r.dir.dot(outward_normal) < 0;
-  //     this.normal = this.isFrontFace
-  //       ? outward_normal
-  //       : Vec3.negative(outward_normal);
-  //   }
+  /**
+   * 光线在物体外部设为true，反之为false
+   */
+  isFrontFace: boolean;
+  /**
+   *
+   * @ 判定光线在物体内还是物体外，修正法线方向朝外，
+   */
+  setFaceNormal(r: Ray, outward_normal: Vec3): void {
+    this.isFrontFace = r.dir.dot(outward_normal) < 0;
+    this.normal = this.isFrontFace
+      ? outward_normal
+      : Vec3.negative(outward_normal);
+  }
   //   constructor() {
   //     //this.p=new Vec3();
   //     //this.isFrontFace=false;

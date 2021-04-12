@@ -78,4 +78,7 @@ export class Vec3 {
       return temp;
     }
   }
+  static reflect(vecIn: Vec3, n: Vec3): Vec3 {
+    return vecIn.minus(n.multiply(2 * vecIn.dot(n)));
+  }
 }

@@ -21,14 +21,16 @@ export class Sphere implements Hittable {
       if (temp < tmax && temp > tmin) {
         rec.t = temp;
         rec.p = r.at(temp);
-        rec.normal = rec.p.minus(this.center).devide(this.radius);
+        let out_normal = rec.p.minus(this.center).devide(this.radius);
+        rec.setFaceNormal(r, out_normal);
         return true;
       }
       temp = (-1 * b + Math.sqrt(iDiscriminant)) / a;
       if (temp < tmax && temp > tmin) {
         rec.t = temp;
         rec.p = r.at(temp);
-        rec.normal = rec.p.minus(this.center).devide(this.radius);
+        let out_normal = rec.p.minus(this.center).devide(this.radius);
+        rec.setFaceNormal(r, out_normal);
         return true;
       }
     }

@@ -34,7 +34,7 @@ function rayColor(ray: Ray, world: HittableList, depth: number): Color {
   let rec = new HitRecord();
   if (depth <= 0) return new Color(0, 0, 0);
   if (world.hit(ray, 0.001, +Infinity, rec)) {
-    let s = rec.p.add(rec.normal).add(randomVec3InUnitSphere());
+    let s = rec.p.add(rec.normal).add(randomVec3InUnitSphere().unit_vector); //Correct rendering of Lambertian spheres
     let p_s = s.minus(rec.p);
     return rayColor(new Ray(rec.p, p_s), world, depth - 1).multiply(0.5);
   } else {

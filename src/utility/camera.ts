@@ -13,13 +13,17 @@ export class Camera {
   constructor(
     origin: Vec3,
     viewportH: number,
-    viewportW: number,
-    focal_length: number
+    aspectRatio: number,
+    focal_length: number,
+    vfov: number //vertical field-of-view in degrees
   ) {
+    let theta = degreesToRadians(vfov);
+
+    let h = Math.tan(theta / 2);
     this.origin = origin;
     this.focal_length = focal_length;
-    this.viewport_height = viewportH;
-    this.viewport_width = viewportW;
+    this.viewport_height = viewportH * h;
+    this.viewport_width = aspectRatio * this.viewport_height;
     this.horizontal = new Vec3(this.viewport_width, 0, 0);
     this.vertical = new Vec3(0, this.viewport_height, 0);
     //origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length)
@@ -37,4 +41,7 @@ export class Camera {
       .minus(this.origin);
     return new Ray(this.origin, dir);
   }
+}
+function degreesToRadians(degrees: number): number {
+  return (degrees / 180) * Math.PI;
 }

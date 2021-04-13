@@ -9,6 +9,7 @@ import { convertImageToPNG } from "./utility/img2png";
 import { Color } from "./utility/color";
 import { Metal } from "./material/metal";
 import { Lambertian } from "./material/lambertian";
+import { Dieletric } from "./material/dieletric";
 
 let imageH = 225;
 let imageW = 400;
@@ -17,16 +18,19 @@ let samplePerPixel = 100;
 let mimage = new Image(imageW, imageH);
 
 const groundMat = new Lambertian(new Color(0.8, 0.8, 0));
-const centerMat = new Lambertian(new Color(0.7, 0.3, 0.3));
-const leftMat = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
-const rightMat = new Metal(new Color(0.8, 0.6, 0.2), 1.0);
+const centerMat = new Lambertian(new Color(0.1, 0.2, 0.5));
+//const centerMat = new Dieletric(1.5);
+//const leftMat = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
+const leftMat = new Dieletric(1.5);
+const rightMat = new Metal(new Color(0.8, 0.6, 0.2), 0.0);
 let world = new HittableList();
 world.add(new Sphere(new Vec3(0.0, -100.5, -1.0), 100.0, groundMat));
 world.add(new Sphere(new Vec3(0.0, 0.0, -1.0), 0.5, centerMat));
 world.add(new Sphere(new Vec3(-1.0, 0.0, -1.0), 0.5, leftMat));
+world.add(new Sphere(new Vec3(-1.0, 0.0, -1.0), -0.4, leftMat));
 world.add(new Sphere(new Vec3(1.0, 0.0, -1.0), 0.5, rightMat));
 
-let camera = new Camera(new Vec3(0, 0, 0), 2, 2 * aspectRatio, 1);
+let camera = new Camera(new Vec3(0, 0, 0), 2, aspectRatio, 1, 90);
 
 function rayColor(ray: Ray, world: HittableList, depth: number): Color {
   let rec = new HitRecord();

@@ -70,6 +70,13 @@ export class Vec3 {
   static random_vector(): Vec3 {
     return new Vec3(Math.random(), Math.random(), Math.random());
   }
+  static randomInUnitDisk(): Vec3 {
+    while (true) {
+      let p = new Vec3(Math.random() * 2 - 1, Math.random() * 2 - 1, 0);
+      if (p.length_squared >= 1) continue;
+      return p;
+    }
+  }
   static random_unit_sphere_vector(): Vec3 {
     //let vec = new Vec3(Math.random(), Math.random(), Math.random());
     while (true) {

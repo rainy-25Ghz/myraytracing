@@ -19,6 +19,8 @@ let mimage = new Image(imageW, imageH);
 
 const groundMat = new Lambertian(new Color(0.8, 0.8, 0));
 const centerMat = new Lambertian(new Color(0.1, 0.2, 0.5));
+// const lMat = new Lambertian(new Color(0, 0, 1));
+// const rMat = new Lambertian(new Color(1, 0, 0));
 //const centerMat = new Dieletric(1.5);
 //const leftMat = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
 const leftMat = new Dieletric(1.5);
@@ -27,10 +29,22 @@ let world = new HittableList();
 world.add(new Sphere(new Vec3(0.0, -100.5, -1.0), 100.0, groundMat));
 world.add(new Sphere(new Vec3(0.0, 0.0, -1.0), 0.5, centerMat));
 world.add(new Sphere(new Vec3(-1.0, 0.0, -1.0), 0.5, leftMat));
-world.add(new Sphere(new Vec3(-1.0, 0.0, -1.0), -0.4, leftMat));
+world.add(new Sphere(new Vec3(-1.0, 0.0, -1.0), -0.45, leftMat));
 world.add(new Sphere(new Vec3(1.0, 0.0, -1.0), 0.5, rightMat));
 
-let camera = new Camera(new Vec3(0, 0, 0), 2, aspectRatio, 1, 90);
+let lookFrom = new Vec3(3, 3, 2);
+let lookAt = new Vec3(0, 0, -1);
+let distFocus = lookFrom.minus(lookAt).length;
+let camera = new Camera(
+  lookFrom,
+  lookAt,
+  new Vec3(0, 1, 0),
+  2,
+  aspectRatio,
+  20,
+  2,
+  distFocus
+);
 
 function rayColor(ray: Ray, world: HittableList, depth: number): Color {
   let rec = new HitRecord();

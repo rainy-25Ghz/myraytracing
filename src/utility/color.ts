@@ -53,13 +53,14 @@ export class Color implements Vector {
     return Math.abs(Math.round(this.z * 255));
   }
 }
-let pink = new Color(236 / 255, 217 / 255, 235 / 255);
-let pink2 = new Color(224 / 255, 145 / 255, 162 / 255);
-let pink3 = new Color(215 / 255, 184 / 255, 185 / 255);
-let green = new Color(158 / 255, 185 / 255, 179 / 255);
-let yellow = new Color(234 / 255, 191 / 255, 123 / 255);
-let green2 = new Color(88 / 255, 111 / 255, 109 / 255);
-let blue2 = new Color(87 / 255, 118 / 255, 149 / 255);
+export let pink = new Color(236 / 255, 217 / 255, 235 / 255);
+export let pink2 = new Color(224 / 255, 145 / 255, 162 / 255);
+export let pink3 = new Color(215 / 255, 184 / 255, 185 / 255);
+export let green = new Color(158 / 255, 185 / 255, 179 / 255);
+export let yellow = new Color(234 / 255, 191 / 255, 123 / 255);
+export let green2 = new Color(88 / 255, 111 / 255, 109 / 255);
+export let blue2 = new Color(87 / 255, 118 / 255, 149 / 255);
+
 const colors = [pink, pink2, pink3, green, yellow, green2, blue2];
 export function randomColor(): Color {
   return colors[Math.floor(Math.random() * colors.length)];
